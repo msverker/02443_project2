@@ -77,4 +77,4 @@ plt.plot(immune_list, label="Immune")
 
 plt.legend()
 
-plt.savefig("infected_immediately_model.png")
+plt.savefig("figures/infected_immediately_model.png")
