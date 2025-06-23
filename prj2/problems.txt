@@ -1,0 +1,6 @@
+1. Estimer Q matrix ud fra data ligesom i opgave 13.
+2. Estimer beta og gamma ved simulering.
+3. Simuler samtlige udfald
+4. R -> S, SIRS
+5. Ekstra multivirus -> simuler tidsserie for overmængde af døde på given hospital
+6. Vaccine
