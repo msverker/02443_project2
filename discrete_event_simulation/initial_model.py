@@ -48,6 +48,7 @@ for day in tqdm.tqdm(range(number_of_days)):
 
 plt.figure(figsize=(10, 6))
 plt.title("Initial SIR model")
+plt.grid(visible=True)
 plt.plot(susceptible_list, label="Susceptible")
 plt.plot(infected_list, label="Infected")
 plt.plot(recovered_list, label="Recovered")
