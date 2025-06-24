@@ -31,7 +31,7 @@ immune_time = 120
 population_list = np.array(
     [0] * (N - initial_sick) + [1] * initial_sick
 )
-sick_list = [0] * (N-initial_sick) + list(np.random.exponential(scale=1/gamma, size=initial_sick))
+sick_list = [0] * (N - initial_sick) + list(np.random.exponential(scale=1/gamma, size=initial_sick))
 sick_list = [(0, v) for v in sick_list]
 immune_list_time = [(0, 0)] * N
 
@@ -39,10 +39,19 @@ susceptible_list = [(N - initial_sick) / N]
 infected_list = [initial_sick / N]
 immune_list = [0]
 
+has_been_infected = [False] * (N - initial_sick) + [True] * initial_sick
+time_since_last_infected = [0] * N
+time_since_last_infected_list = []
+
 for day in tqdm.tqdm(range(number_of_days)):
     S = np.array(range(N))[population_list == 0]
     I = np.array(range(N))[population_list == 1]
     IM = np.array(range(N))[population_list == 2]
+    
+    ###
+    for person in S:
+        if has_been_infected[person]: time_since_last_infected[person] += 1
+    ###
     
     # New infected (0 to 1)
     p_infection = beta * len(I) / N
@@ -50,6 +59,13 @@ for day in tqdm.tqdm(range(number_of_days)):
     for person in to_be_infected:
         population_list[person] = 1
         sick_list[person] = (day, np.random.exponential(scale=1/gamma))
+
+        ###
+        v = time_since_last_infected[person] 
+        if v > 0:
+            time_since_last_infected_list.append(v)
+            time_since_last_infected[person] = 0
+        ### 
 
     # New immune (1 to 2)
     for person in I:
@@ -78,4 +94,10 @@ plt.plot(immune_list, label="Immune")
 
 plt.legend()
 
-plt.savefig("figures/infected_after_some_time_model.png")
+plt.savefig("infected_after_some_time_model.png")
+
+# plt.figure()
+# plt.hist(time_since_last_infected_list)
+# plt.show()
+
+# breakpoint()
